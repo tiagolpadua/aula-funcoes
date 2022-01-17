@@ -1,7 +1,8 @@
-const { somar, subtrair, operacao, aplicar, paraTodos, mapear, filtrar, reduzir } = require('./funcoes');
+const { paraTodos, somar, subtrair, operacao, aplicar } = require('./funcoes');
 
-test('Deve somar dois números.', () => {
-    expect(somar(1, 2)).toBe(3);
+test('Deve somar dois numeros', () => {
+    let res = somar(1, 2);
+    expect(res).toBe(3);
 });
 
 test('Deve subtrair dois números.', () => {
@@ -9,9 +10,13 @@ test('Deve subtrair dois números.', () => {
 });
 
 test('Deve retornar uma função.', () => {
-    expect(operacao('somar')(1, 2)).toBe(3);
-    expect(operacao('subtrair')(5, 4)).toBe(1);
-    expect(operacao('foo')).toBeUndefined();
+    let minhaSoma = operacao('somar');
+    let minhaSubtracao = operacao('subtrair');
+    let minhaQQCoisa = operacao('qqcoisa');
+
+    expect(minhaSoma(5, 4)).toBe(9);
+    expect(minhaSubtracao(7, 5)).toBe(2);
+    expect(minhaQQCoisa).toBeUndefined();
 });
 
 test('Deve aplicar uma função.', () => {
@@ -19,31 +24,13 @@ test('Deve aplicar uma função.', () => {
     expect(aplicar(subtrair, 5, 1)).toBe(4);
 });
 
-
 test('Deve executar a função para todos.', () => {
     let lista = [1, 2, 3, 4];
-    let buffer = ''
-    let armazenar = (v) => buffer += v;
-    paraTodos(lista, armazenar);
-    expect(buffer).toBe("1234");
-});
+    let resultado = 0
 
-test('Deve mapear a função.', () => {
-    let lista = [1, 2, 3, 4];
-    let inc = (v) => v + 1
-    let res = mapear(lista, inc);
-    expect(res).toEqual([2, 3, 4, 5]);
-});
+    let somatorio = (v) => resultado += v;
 
-test('Deve filtrar os valores.', () => {
-    let lista = [1, 2, 3, 4];
-    let ehPar = (v) => v % 2 === 0;
-    let res = filtrar(lista, ehPar);
-    expect(res).toEqual([2, 4]);
-});
+    paraTodos(lista, somatorio);
 
-test('Deve reduzir uma lista.', () => {
-    let lista = [1, 2, 3, 4];
-    let res = reduzir(lista, somar, 0);
-    expect(res).toEqual(10);
+    expect(resultado).toBe(10);
 });
